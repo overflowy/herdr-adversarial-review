@@ -10,9 +10,9 @@ The reviewer runs interactively in its own pane, so you can watch it work or jum
 
 Four things need to be set up, in order: herdr, CLIProxyAPI, agent-safehouse, and the `safecodex` shell function. Then install the skill itself.
 
-## Demo
+### Demo
 
-https://github.com/user-attachments/assets/4380933b-58cb-4e69-90ad-d047e683ae14
+https://github.com/user-attachments/assets/8e2c5227-148f-4f02-83c7-cb973824864d
 
 ## 1. Install herdr
 
