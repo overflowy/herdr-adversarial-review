@@ -10,6 +10,10 @@ The reviewer runs interactively in its own pane, so you can watch it work or jum
 
 Four things need to be set up, in order: herdr, CLIProxyAPI, agent-safehouse, and the `safecodex` shell function. Then install the skill itself.
 
+## Demo
+
+https://github.com/user-attachments/assets/4380933b-58cb-4e69-90ad-d047e683ae14
+
 ## 1. Install herdr
 
 herdr is the agent multiplexer the skill drives - it creates the reviewer pane, sends it input, and waits on its idle/working/blocked status.
@@ -77,26 +81,17 @@ Add to `~/.zshrc` (adjust for your shell):
 export CLI_PROXY_API_KEY="<the key from your config.yml>"
 
 safecodex() {
-    ANTHROPIC_BASE_URL=http://localhost:8317 \
-        ANTHROPIC_AUTH_TOKEN="$CLI_PROXY_API_KEY" \
-        ANTHROPIC_MODEL=gpt-5.6-sol \
-        ANTHROPIC_SMALL_FAST_MODEL=gpt-5.6-sol \
-        CLAUDE_CODE_SUBAGENT_MODEL=gpt-5.6-sol \
-        CLAUDE_CODE_ALWAYS_ENABLE_EFFORT=1 \
-        CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY=3 \
-        ENABLE_TOOL_SEARCH=false \
-        safe claude --model 'gpt-5.6-sol[1m]' --dangerously-skip-permissions "$@"
+   ANTHROPIC_BASE_URL=http://localhost:8317 \
+   ANTHROPIC_AUTH_TOKEN="$CLI_PROXY_API_KEY" \
+   ANTHROPIC_MODEL=gpt-5.6-sol \
+   ANTHROPIC_SMALL_FAST_MODEL=gpt-5.6-sol \
+   CLAUDE_CODE_SUBAGENT_MODEL=gpt-5.6-sol \
+   CLAUDE_CODE_ALWAYS_ENABLE_EFFORT=1 \
+   CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY=3 \
+   ENABLE_TOOL_SEARCH=false \
+   safe claude --model 'gpt-5.6-sol[1m]' --dangerously-skip-permissions "$@"
 }
 ```
-
-What each piece does:
-
-- `ANTHROPIC_BASE_URL` / `ANTHROPIC_AUTH_TOKEN` - point the `claude` CLI at CLIProxyAPI with your shared key.
-- `ANTHROPIC_MODEL`, `ANTHROPIC_SMALL_FAST_MODEL`, `CLAUDE_CODE_SUBAGENT_MODEL` - route every model role to GPT‑5.6 Sol so nothing falls back to an Anthropic model the proxy can't serve.
-- `--model 'gpt-5.6-sol[1m]'` - the `[1m]` suffix requests the 1M-token context window, so large diffs fit.
-- `CLAUDE_CODE_ALWAYS_ENABLE_EFFORT=1` - exposes the effort setting for non-Anthropic models.
-- `CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY=3` / `ENABLE_TOOL_SEARCH=false` - tame concurrency and disable deferred-tool search, which the proxied model handles poorly.
-- `safe … --dangerously-skip-permissions` - skip permission prompts, safely: the sandbox is the guardrail instead.
 
 Reload your shell (`exec zsh`) and note that the function must be defined in your **interactive** shell config - the skill launches it via `herdr pane run`, which runs an interactive shell precisely so aliases and functions resolve.
 
