@@ -1,0 +1,8 @@
+{
+  "name": "adversarial-review",
+  "description": "Adversarial code review by a second model (GPT-5.6 Sol) in a live herdr split pane, findings verified before relay",
+  "author": {
+    "name": "overflowy"
+  },
+  "repository": "https://github.com/overflowy/herdr-claude-gpt-adversarial-review-skill"
+}

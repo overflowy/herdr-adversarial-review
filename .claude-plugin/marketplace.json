@@ -1,0 +1,16 @@
+{
+  "name": "herdr-claude-gpt-adversarial-review-skill",
+  "owner": {
+    "name": "overflowy"
+  },
+  "description": "Adversarial code review skill for Claude Code, powered by a second model via CLIProxyAPI + herdr",
+  "plugins": [
+    {
+      "name": "adversarial-review",
+      "source": {
+        "source": "github",
+        "repo": "overflowy/herdr-claude-gpt-adversarial-review-skill"
+      }
+    }
+  ]
+}
