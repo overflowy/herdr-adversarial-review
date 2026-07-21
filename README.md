@@ -2,7 +2,7 @@
 
 A Claude Code skill that runs an adversarial code review using a **second, independent model** - GPT‑5.6 Sol - as the reviewer. Claude spawns the reviewer in a live [herdr](https://herdr.dev/) split pane, hands it your diff (or plan) plus the stated intent, waits for it to finish, then interrogates every finding against the actual code before relaying a verdict.
 
-The reviewer runs interactively in its own pane, so you can watch it work, approve permission prompts, or jump in and steer.
+The reviewer runs interactively in its own pane, so you can watch it work or jump in and steer.
 
 ## How the pieces fit together
 
@@ -162,5 +162,4 @@ herdr pane split --current --direction right --ratio 0.4 --no-focus
 - **Reviewer pane opens but errors immediately** - usually the proxy: check it's running on 8317 and that `CLI_PROXY_API_KEY` matches an entry in `config.yml`'s `api-keys`.
 - **Auth errors from the model** - the Codex OAuth token may have expired; re-run the `--codex-login` step.
 - **`safecodex: command not found` in the pane** - the function isn't in your interactive shell config, or was only exported in one terminal. It must live in `~/.zshrc`.
-- **The wait times out with status `blocked`** - the reviewer hit a permission prompt. The pane is interactive: approve it there and the run continues.
 - **Sandbox denials** - agent-safehouse grants read/write to the project directory only. If the review legitimately needs another path, add it to the `safe` wrapper's `--add-dirs` list.
