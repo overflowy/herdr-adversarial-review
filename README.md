@@ -139,9 +139,6 @@ curl -s http://localhost:8317/v1/models -H "x-api-key: $CLI_PROXY_API_KEY"
 
 # safecodex works end to end (one-shot, no TUI)
 safecodex -p "Say ok"
-
-# herdr can split and address panes (run inside herdr)
-herdr pane split --current --direction right --ratio 0.4 --no-focus
 ```
 
 ## Troubleshooting
@@ -150,3 +147,7 @@ herdr pane split --current --direction right --ratio 0.4 --no-focus
 - **Auth errors from the model** - the Codex OAuth token may have expired; re-run the `--codex-login` step.
 - **`safecodex: command not found` in the pane** - the function isn't in your interactive shell config, or was only exported in one terminal. It must live in `~/.zshrc`.
 - **Sandbox denials** - agent-safehouse grants read/write to the project directory only. If the review legitimately needs another path, add it to the `safe` wrapper's `--add-dirs` list.
+
+## License
+
+MIT
