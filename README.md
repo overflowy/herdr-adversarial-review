@@ -6,15 +6,7 @@ The reviewer runs interactively in its own pane, so you can watch it work or jum
 
 ## How the pieces fit together
 
-```
-Claude Code (this skill)
-  └─ herdr ──────────────── splits a pane, tracks the reviewer's agent status
-       └─ safecodex ─────── shell function that launches the reviewer
-            └─ safe ─────── agent-safehouse: sandboxes the reviewer to the project dir
-                 └─ claude CLI ── pointed at a local proxy instead of Anthropic
-                      └─ CLIProxyAPI (localhost:8317) ── translates the Anthropic
-                           └─ GPT‑5.6 Sol               API to your OpenAI/Codex login
-```
+<img width="2120" height="1540" alt="ar" src="https://github.com/user-attachments/assets/c07dc5f9-262e-4843-ba13-2a95cd08656d" />
 
 Four things need to be set up, in order: herdr, CLIProxyAPI, agent-safehouse, and the `safecodex` shell function. Then install the skill itself.
 
