@@ -1,5 +1,5 @@
 {
-  "name": "herdr-claude-gpt-adversarial-review-skill",
+  "name": "herdr-adversarial-review",
   "owner": {
     "name": "overflowy"
   },
@@ -9,7 +9,7 @@
       "name": "adversarial-review",
       "source": {
         "source": "github",
-        "repo": "overflowy/herdr-claude-gpt-adversarial-review-skill"
+        "repo": "overflowy/herdr-adversarial-review"
       }
     }
   ]
