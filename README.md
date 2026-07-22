@@ -100,8 +100,8 @@ Reload your shell (`exec zsh`) and note that the function must be defined in you
 The repo is a Claude Code plugin marketplace, so you can install it directly from within Claude Code:
 
 ```
-/plugin marketplace add overflowy/herdr-claude-gpt-adversarial-review-skill
-/plugin install adversarial-review@herdr-claude-gpt-adversarial-review-skill
+/plugin marketplace add overflowy/herdr-adversarial-review
+/plugin install adversarial-review@herdr-adversarial-review
 ```
 
 Alternatively, copy the skill into your skills directory manually:
