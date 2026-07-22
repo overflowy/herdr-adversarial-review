@@ -1,4 +1,4 @@
-# Adversarial Review
+# Herdr Adversarial Review
 
 A Claude Code skill that runs an adversarial code review using a **second, independent model** - GPT‑5.6 Sol - as the reviewer. Claude spawns the reviewer in a live [herdr](https://herdr.dev/) split pane, hands it your diff (or plan) plus the stated intent, waits for it to finish, then interrogates every finding against the actual code before relaying a verdict.
 
