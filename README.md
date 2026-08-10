@@ -104,11 +104,11 @@ The repo is a Claude Code plugin marketplace, so you can install it directly fro
 /plugin install adversarial-review@herdr-adversarial-review
 ```
 
-Alternatively, copy the skill into your skills directory manually:
+Alternatively, copy the skill into your skills directory manually (it ships a `scripts/reviewer.sh` alongside `SKILL.md`, so copy the whole directory):
 
 ```bash
-mkdir -p ~/.claude/skills/adversarial-review
-cp skills/adversarial-review/SKILL.md ~/.claude/skills/adversarial-review/
+mkdir -p ~/.claude/skills
+cp -r skills/adversarial-review ~/.claude/skills/
 ```
 
 ## Usage
@@ -121,11 +121,9 @@ From a Claude Code session running inside a herdr pane, in the project you want 
 
 or just ask in natural language - "poke holes in this diff", "red-team this plan", "get a second opinion before I ship". Claude will:
 
-1. State the **intent** of the work (what the change is trying to achieve).
-2. Write the diff + reviewer charge to a prompt file under `/tmp/adversarial-review/`.
-3. Split a herdr pane and launch `safecodex` in it - the reviewer's TUI is live there.
-4. Wait for the review to finish (herdr tracks the agent's status natively).
-5. **Interrogate** every finding against the actual code, pressing the still-open reviewer session on anything disputed, and report each one as Confirmed, Disputed, or Unverified.
+1. State the **intent** of the work (what the change is trying to achieve) and write it to a file.
+2. Run `scripts/reviewer.sh start`, which drives the whole reviewer lifecycle: it builds the prompt (diff and/or files plus the reviewer charge) under `/tmp/adversarial-review/`, splits a herdr pane, launches `safecodex` in it - the reviewer's TUI is live there - submits the task, and waits it out, surfacing any permission prompts for you to approve in the pane.
+3. **Interrogate** every finding against the actual code, pressing the still-open reviewer session on anything disputed (`reviewer.sh ask`), and report each one as Confirmed, Disputed, or Unverified.
 
 The last step matters: the reviewer is adversarial by instruction and will sometimes overstate or manufacture problems. You get verdicts, not raw output - and "nothing the reviewer found holds up" is a valid outcome.
 
@@ -147,6 +145,7 @@ safecodex -p "Say ok"
 - **Auth errors from the model** - the Codex OAuth token may have expired; re-run the `--codex-login` step.
 - **`safecodex: command not found` in the pane** - the function isn't in your interactive shell config, or was only exported in one terminal. It must live in `~/.zshrc`.
 - **Sandbox denials** - agent-safehouse grants read/write to the project directory only. If the review legitimately needs another path, add it to the `safe` wrapper's `--add-dirs` list.
+- **Different reviewer command** - set `ADVERSARIAL_REVIEW_CMD` to replace the default `safecodex --disallowedTools Task,Agent,WebSearch,WebFetch --effort medium --disable-slash-commands` invocation, e.g. to point at a different wrapper or model.
 
 ## License
 
