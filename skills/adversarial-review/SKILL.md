@@ -10,10 +10,8 @@ splits a herdr pane, launches `safecodex`, submits, waits through permission
 prompts, and verifies the output file. Your job is the two things it can't do:
 **state the intent** and **verify the findings**.
 
-`<skill-dir>` in the commands below is this skill's own directory — the one
-containing this SKILL.md (e.g. `~/.claude/skills/adversarial-review` for a
-manual install, or the plugin's skill directory for a plugin install). Its path
-is shown when the skill loads; substitute the absolute path in every command.
+`<skill-dir>` below is this skill's directory (shown when the skill loads) —
+substitute its absolute path.
 
 The reviewer runs interactively in the split pane, so the user can watch it,
 approve prompts, or steer it.
