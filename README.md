@@ -67,11 +67,11 @@ Then add the `safe` wrapper to `~/.zshrc` (adjust for your shell):
 
 ```bash
 safe() {
-    safehouse --env --add-dirs="/tmp" "$@"
+    safehouse --env --add-dirs="/tmp:~/.claude" "$@"
 }
 ```
 
-The `/tmp` grant matters for this skill: it's where the handoff files live (the skill writes the review prompt to `/tmp/adversarial-review/` and the reviewer writes its findings back there). Without it, the reviewer can't read its prompt or produce output.
+Both grants matter for this skill: `/tmp` is where the handoff files live (the skill writes the review prompt to `/tmp/adversarial-review/`, the reviewer writes its findings back there, and `safecodex` keeps its throwaway config dir there - see below), and `~/.claude` lets the sandboxed CLI read your global Claude Code config. Without `/tmp`, the reviewer can't read its prompt or produce output.
 
 ## 4. Define the `safecodex` function
 
@@ -81,6 +81,12 @@ Add to `~/.zshrc` (adjust for your shell):
 export CLI_PROXY_API_KEY="<the key from your config.yml>"
 
 safecodex() {
+   # Throwaway config dir: keeps reviewer sessions out of ~/.claude session
+   # history and pre-accepts the onboarding, bypass-permissions, and
+   # project-trust dialogs, so the reviewer starts without manual clicking.
+   local cfg
+   cfg=$(mktemp -d /tmp/safecodex-cfg.XXXXXX) || return 1
+   printf '{"hasCompletedOnboarding": true, "bypassPermissionsModeAccepted": true, "projects": {"%s": {"hasTrustDialogAccepted": true}}}\n' "$PWD" >"$cfg/.claude.json"
    ANTHROPIC_BASE_URL=http://localhost:8317 \
    ANTHROPIC_AUTH_TOKEN="$CLI_PROXY_API_KEY" \
    ANTHROPIC_MODEL=gpt-5.6-sol \
@@ -89,6 +95,7 @@ safecodex() {
    CLAUDE_CODE_ALWAYS_ENABLE_EFFORT=1 \
    CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY=3 \
    ENABLE_TOOL_SEARCH=false \
+   CLAUDE_CONFIG_DIR="$cfg" \
    safe claude --model 'gpt-5.6-sol[1m]' --dangerously-skip-permissions "$@"
 }
 ```
