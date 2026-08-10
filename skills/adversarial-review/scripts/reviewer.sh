@@ -33,7 +33,7 @@ herdr_ok() {
 }
 
 # `herdr pane read` emits plain text, not a JSON envelope like the other
-# subcommands — piping it through jq swallowed every diagnostic tail.
+# subcommands - piping it through jq swallowed every diagnostic tail.
 pane_tail() {
   herdr pane read "$1" --source recent-unwrapped --lines "${2:-40}" 2>/dev/null
 }
@@ -64,7 +64,7 @@ wait_settled() {
           notified=1
           herdr notification show "Adversarial reviewer needs input" \
             --body "Approve the prompt in the reviewer pane." --sound request >/dev/null 2>&1
-          note "reviewer is BLOCKED on a prompt in its pane — approve it there; still waiting"
+          note "reviewer is BLOCKED on a prompt in its pane - approve it there; still waiting"
         fi ;;
       *) gone=0; notified=0 ;;
     esac
@@ -73,7 +73,7 @@ wait_settled() {
 }
 
 load_state() {
-  [[ -f "$STATE" ]] || die "no active review (missing $STATE) — run 'reviewer.sh start' first"
+  [[ -f "$STATE" ]] || die "no active review (missing $STATE) - run 'reviewer.sh start' first"
   # shellcheck disable=SC1090
   . "$STATE"
 }
@@ -160,17 +160,17 @@ cmd_start() {
 ## Your charge
 
 You are an adversarial reviewer. Your job is to find real problems, not to
-validate the work. Judge whether the work achieves the stated intent well — not
+validate the work. Judge whether the work achieves the stated intent well - not
 whether the intent itself is correct.
 
 Be specific: cite files, lines, and concrete failure scenarios. Rate each
 finding **high** (blocks ship), **medium** (should fix), or **low** (worth
 noting).
 
-Write your findings in English — regardless of the language of the reviewed
-content — as a numbered markdown list to \`$review\` (create the file;
+Write your findings in English - regardless of the language of the reviewed
+content - as a numbered markdown list to \`$review\` (create the file;
 that file is your only output channel). Work alone: do not spawn subagents or
-delegate — read the code yourself so every finding comes from one accountable
+delegate - read the code yourself so every finding comes from one accountable
 read.
 EOF
   } >"$prompt" || die "failed to build $prompt"
@@ -181,7 +181,7 @@ EOF
   [[ -n "$pane" && "$pane" != null ]] || die "pane split returned no pane_id"
 
   # Record the pane before anything that can fail, so a failed start is still
-  # closable — `close` and `status` need PANE, not a finished handshake.
+  # closable - `close` and `status` need PANE, not a finished handshake.
   write_state "$id" "$pane" "$pane" "$prompt" "$review"
 
   herdr pane rename "$pane" "adversarial-reviewer" >/dev/null 2>&1
