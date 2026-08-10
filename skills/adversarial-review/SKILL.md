@@ -10,6 +10,11 @@ splits a herdr pane, launches `safecodex`, submits, waits through permission
 prompts, and verifies the output file. Your job is the two things it can't do:
 **state the intent** and **verify the findings**.
 
+`<skill-dir>` in the commands below is this skill's own directory — the one
+containing this SKILL.md (e.g. `~/.claude/skills/adversarial-review` for a
+manual install, or the plugin's skill directory for a plugin install). Its path
+is shown when the skill loads; substitute the absolute path in every command.
+
 The reviewer runs interactively in the split pane, so the user can watch it,
 approve prompts, or steer it.
 
@@ -27,7 +32,7 @@ user, and start:
 cat > /tmp/intent.md <<'EOF'
 <what the author is trying to achieve>
 EOF
-~/.claude/skills/adversarial-review/scripts/reviewer.sh start --intent-file /tmp/intent.md --diff
+<skill-dir>/scripts/reviewer.sh start --intent-file /tmp/intent.md --diff
 ```
 
 Target selection:
@@ -65,7 +70,7 @@ finding against the actual code and mark it:
 The session stays open. To press on a finding worth pursuing:
 
 ```bash
-~/.claude/skills/adversarial-review/scripts/reviewer.sh ask "Finding 3 assumes X is nil — where does that happen?"
+<skill-dir>/scripts/reviewer.sh ask "Finding 3 assumes X is nil — where does that happen?"
 ```
 
 `ask` submits, waits, and prints the reviewer's answer. Weigh it before settling
@@ -74,7 +79,7 @@ the verdict — an answer is not automatically right either.
 ## 3. Report and clean up
 
 ```bash
-~/.claude/skills/adversarial-review/scripts/reviewer.sh close
+<skill-dir>/scripts/reviewer.sh close
 ```
 
 Leave the pane open only on failure. Report:
